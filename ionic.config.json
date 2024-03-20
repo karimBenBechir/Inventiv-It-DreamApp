@@ -1,5 +1,7 @@
 {
   "name": "Dream App",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }
