@@ -1,25 +1,82 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Inbox
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row class="fullHeight">
+      <ion-col *ngIf="isLaptopView()" size="12" size-sm="12" size-md="6" size-lg="6" size-xl="6" class="backgroundColor paddingLeft5vw">
+        <ion-row class="marginBottom5vh">
+          <ion-col size="12">
+            <ion-item lines="none" class="transparentBackground marginBottom5vh marginTop3vh">
+              <ion-img slot="start" src="./../../assets/images/logo2.png" class="logoImg"></ion-img>
+            </ion-item>
+            <ion-item lines="none" class="transparentBackground">
+              <ion-label class="whiteColor boldText"> Pour commencer...</ion-label>
+            </ion-item>
+            <ion-item lines="none" class="transparentBackground">
+              <ion-label class="whiteColor maxWidth25vh">Faire votre Shynleï, jouer avec, c'est l'occasion
+                d'écouter vos rêves, de
+                les partager et de
+                prendre confiance dans votre richesse.
+              </ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12">
+            <form [formGroup]="contractForm">
+              <ion-list class="transparentBackground">
+                <ion-item lines="none" class="transparentBackground formItemWidth">
 
-<ion-content [fullscreen]="true">
-  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
-  
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">
-        Inbox
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
-  
-  <ion-list>
-    <app-message *ngFor="let message of getMessages()" [message]="message"></app-message>
-  </ion-list>
+                  <ion-input label="Nom et prenom" labelPlacement="stacked" class="formInput text_white"
+                    placeholder="xxxxx xxxx xxxx" clearInput (keypress)="nextClicked($event,intentionInput)"
+                    enterkeyhint='next' formControlName="flatName">
+                  </ion-input>
+                </ion-item>
+                <ion-item lines="none" class="transparentBackground formItemWidth">
+                  <ion-input #intentionInput label="Mon intention" labelPlacement="stacked"
+                    helperText="L'intention, l'objectif de ce Shynlei" class="formInput text_white"
+                    placeholder="xxxxx xxxx xxxx" enterkeyhint='next' clearInput type="text"
+                    formControlName="intention">
+                  </ion-input>
+                </ion-item>
+              </ion-list>
+            </form>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+      <ion-col size="12" size-sm="12" size-md="6" size-lg="6" size-xl="6">
+        <ion-grid fixed>
+          <ion-row  [ngClass]="{marginTop3vh: isLaptopView()}">
+            <ion-col size="12">
+              <ion-item lines="none" *ngIf="isLaptopView()" class="marginBottom5vh">
+                <ion-icon slot="end" name="menu-outline" size="large"></ion-icon> </ion-item>
+              <ion-item lines="none"  >
+                <ion-label class="boldText"> Votre Shynleï c'est..</ion-label>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-label>7 étapes, 2 fiches pour prendre note des rencontres, 1 page pour éclairer le sens, 3
+                  interprétations pour
+                  vous
+                  aider..</ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12" size-sm="12" size-md="6" size-lg="6" size-xl="6">
+              <app-text-icon *ngFor="let shynleiStep of getshynleiSteps()" [itemContent]="shynleiStep"></app-text-icon>
+            </ion-col>
+            <ion-col size="12" size-sm="12" size-md="6" size-lg="6" size-xl="6">
+              <app-text-icon *ngFor="let shynleiStep of getshynleiSteps2()" [itemContent]="shynleiStep"></app-text-icon>
+            </ion-col>
+          </ion-row>
+          <ion-row  [ngClass]="[isLaptopView() ? 'marginTop10vh' : 'marginTop3vh']">
+            <ion-col size="8" offset="2">
+              <ion-button [disabled]="formValidation()" color="secondary" expand="block" fill="solid"
+                (click)="register()">
+                <span>Exprimer mes rêves </span>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
