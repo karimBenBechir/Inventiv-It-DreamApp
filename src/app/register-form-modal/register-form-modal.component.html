@@ -1,0 +1,39 @@
+<ion-header class="modalToolBar">
+  <ion-toolbar>
+    <ion-title size="small" class="text_mainColor700">
+   Demande de rêve
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button class="activatedButtonBackground" ion-button icon-only (click)="closeModal()">
+        <ion-icon item-right name="close-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+
+<form [formGroup]="contractForm">
+  <ion-list>
+    <ion-item lines="none" >
+      <ion-input label="Nom et prenom" labelPlacement="stacked" 
+        placeholder="xxxxx xxxx xxxx" clearInput enterkeyhint='next' formControlName="flatName">
+      </ion-input>
+    </ion-item>
+    <ion-item lines="none" >
+      <ion-input label="Mon intention" labelPlacement="stacked" helperText="L'intention, l'objectif de ce Shynlei"
+        placeholder="xxxxx xxxx xxxx" enterkeyhint='next' clearInput type="text"
+        formControlName="intention">
+      </ion-input>
+    </ion-item>
+  </ion-list>
+</form>
+</ion-content>
+<ion-footer [hidden]="keyBoardShown">
+  <ion-row>
+    <ion-col size="8" offset="2">
+      <ion-button [disabled]="!contractForm.valid" color="secondary" expand="block" fill="solid" (click)="register()">
+        <span>Confirmer</span>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

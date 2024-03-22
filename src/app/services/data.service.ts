@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { ToastController } from '@ionic/angular';
+import axios from 'axios';
+const toastController = new ToastController();
 
 export interface Message {
   fromName: string;
@@ -9,75 +12,116 @@ export interface Message {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DataService {
-  public messages: Message[] = [
+  shynleiFirstList: textIconType[] = [
     {
-      fromName: 'Matt Chorsey',
-      subject: 'New event: Trip to Vegas',
-      date: '9:32 AM',
-      id: 0,
-      read: false
+      text: "1. Le rêve liber l'expression",
+      iconUrl: 'assets/images/Page-1.svg',
+    },
+
+    {
+      text: '3. La différence rend unique',
+      iconUrl: 'assets/images/Page-3.svg',
+    },
+    { text: '5. La clé exprime le style', iconUrl: 'assets/images/Page-5.svg' },
+    {
+      text: "7. Le ciel bleu révèle l'alignement",
+      iconUrl: 'assets/images/Page-7.svg',
+    },
+  ];
+  shynleiSecondList: textIconType[] = [
+    {
+      text: '2. Le sens éclaire le parcours',
+      iconUrl: 'assets/images/Page-2.svg',
     },
     {
-      fromName: 'Lauren Ruthford',
-      subject: 'Long time no chat',
-      date: '6:12 AM',
-      id: 1,
-      read: false
+      text: '4. La valeur humaine met en mouvement',
+      iconUrl: 'assets/images/Page-4.svg',
     },
+
     {
-      fromName: 'Jordan Firth',
-      subject: 'Report Results',
-      date: '4:55 AM',
-      id: 2,
-      read: false
+      text: '6. Le parcours associe rêve et réalité',
+      iconUrl: 'assets/images/Page-6.svg',
     },
-    {
-      fromName: 'Bill Thomas',
-      subject: 'The situation',
-      date: 'Yesterday',
-      id: 3,
-      read: false
-    },
-    {
-      fromName: 'Joanne Pollan',
-      subject: 'Updated invitation: Swim lessons',
-      date: 'Yesterday',
-      id: 4,
-      read: false
-    },
-    {
-      fromName: 'Andrea Cornerston',
-      subject: 'Last minute ask',
-      date: 'Yesterday',
-      id: 5,
-      read: false
-    },
-    {
-      fromName: 'Moe Chamont',
-      subject: 'Family Calendar - Version 1',
-      date: 'Last Week',
-      id: 6,
-      read: false
-    },
-    {
-      fromName: 'Kelly Richardson',
-      subject: 'Placeholder Headhots',
-      date: 'Last Week',
-      id: 7,
-      read: false
-    }
   ];
 
-  constructor() { }
+  constructor() {}
 
-  public getMessages(): Message[] {
-    return this.messages;
+  getFirstShynlei(): textIconType[] {
+    return this.shynleiFirstList;
+  }
+  getSecondshynlei(): textIconType[] {
+    return this.shynleiSecondList;
   }
 
-  public getMessageById(id: number): Message {
-    return this.messages[id];
+  async checkIpAddress() {
+    return new Promise<ipAdressDataType>(async (resolve, reject) => {
+      try {
+        const options = {
+          url: 'https://api.db-ip.com/v2/free/self',
+          method: 'GET',
+        };
+        const response = await axios(options);
+        if (response.status === 200) {
+          const data: string = response.data.ipAddress;
+          this.validateIpAdress(data);
+          resolve(response.data);
+        }
+        if (response.data.status === 500) {
+          this.presentToast(
+            "Une erreur technique s'est produite, veuillez contacter le service technique."
+          );
+          reject();
+        }
+      } catch (error) {
+        this.presentToast(
+          "Une erreur technique s'est produite, veuillez contacter le service technique."
+        );
+        reject(error);
+      }
+    });
   }
+  validateIpAdress(ipAdressParam: string) {
+    const ipAdressParts = ipAdressParam.split('.').map(function (item) {
+      return parseInt(item, 10);
+    });
+    const sumResult = ipAdressParts.reduce((curr, next) => curr + next);
+    const alertMessage = sumResult > 100 ? 'OK' : 'KO';
+    this.presentToast(alertMessage);
+  }
+
+  presentToast = async (param: any) => {
+    const toast = await toastController.create({
+      message: param,
+      duration: 2500,
+      position: 'top',
+      cssClass: 'confirmationToast',
+      translucent: true,
+      animated: true,
+      icon: 'checkmark-circle',
+    });
+    toast.present();
+  };
+}
+
+export interface textIconType {
+  text: string;
+  iconUrl: string;
+}
+export interface ipAdressDataType {
+  city: string;
+
+  continentCode: string;
+
+  continentName: string;
+
+  countryCode: string;
+
+  countryName: string;
+
+  ipAddress: string;
+
+  stateProv: string;
 }
