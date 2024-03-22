@@ -27,11 +27,10 @@ Avant de pouvoir exécuter l'application, assurez-vous d'avoir installé les out
 - [Karim Ben Bechir]
 
 ## Technologies utilisées
-- Angular 12
+- Ionic 7
+- Capacitor 5
 - TypeScript
 - HTML/CSS
-- Bootstrap
-- Material Design
 
 ## Licence
 Pas de license particuliére requise
